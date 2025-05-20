@@ -9,6 +9,8 @@ let planets = [
   },
 ];
 
+const database = pgPromise()("postgres://postgres:postgres@localhost:5432");
+
 export const getAll = (req, res) => {
   res.status(200).json(planets);
 };
