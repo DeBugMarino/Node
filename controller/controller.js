@@ -1,3 +1,5 @@
+import pgPromise from "pg-promise";
+
 let planets = [
   {
     id: 1,
@@ -9,14 +11,39 @@ let planets = [
   },
 ];
 
-const database = pgPromise()("postgres://postgres:postgres@localhost:5432");
+const database = pgPromise()({
+  host: "localhost",
+  port: 5432,
+  database: "postgres",
+  user: "postgres",
+  password: "10011998A",
+});
 
-export const getAll = (req, res) => {
+const setupDatabase = async () => {
+  await database.none(
+    `DROP TABLE IF EXISTS planets;
+    
+    CREATE TABLE planets (
+    id SERIAL NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL
+    )
+    `
+  );
+  await database.none(`INSERT INTO planets (name) VALUES ('Earth')`);
+  await database.none(`INSERT INTO planets (name) VALUES ('mars')`);
+};
+
+setupDatabase();
+
+export const getAll = async (req, res) => {
+  const planets = await database.many(`SELECT * FROM planets`);
+
   res.status(200).json(planets);
 };
 
-export const gerOneById = (req, res) => {
+export const getOneById = async (req, res) => {
   const { id } = req.params;
+  const planets = await database.many(`SELECT * FROM planets WHERE id=$1`, id);
   const planet = planets.find((p) => p.id === id);
   res.status(200).json(planet);
 };

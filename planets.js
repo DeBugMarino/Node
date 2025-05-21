@@ -23,7 +23,7 @@ app.post("/api/planets", create);
 
 app.put("/api/planets/:id", updateById);
 
-app.delete("/api/planet/:id", deleteById);
+app.delete("/api/planets/:id", deleteById);
 
 app.listen(port, () => {
   console.log(`sta ascoltando http://localhost:${port}`);
