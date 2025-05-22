@@ -16,8 +16,10 @@ const database = pgPromise()({
   port: 5432,
   database: "postgres",
   user: "postgres",
-  password: "10011998A",
+  password: "postgres",
 });
+
+export default database;
 
 const setupDatabase = async () => {
   await database.none(
