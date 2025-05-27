@@ -7,7 +7,20 @@ import {
   create,
   updateById,
   deleteById,
+  createImage,
 } from "./controller.js";
+
+import multer from "multer";
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./upload");
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+const upload = multer({ storage });
 
 const app = express();
 const port = 3000;
@@ -20,6 +33,8 @@ app.get("/api/planets", getAll);
 app.get("/api/planets/:id", getOneById);
 
 app.post("/api/planets", create);
+
+app.post("/planets/:id/image", upload.single("image"), createImage);
 
 app.put("/api/planets/:id", updateById);
 

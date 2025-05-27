@@ -27,7 +27,8 @@ const setupDatabase = async () => {
     
     CREATE TABLE planets (
     id SERIAL NOT NULL PRIMARY KEY,
-    name TEXT NOT NULL
+    name TEXT NOT NULL,
+    image TEXT
     )
     `
   );
@@ -67,6 +68,17 @@ export const updateById = (req, res) => {
 export const deleteById = (req, res) => {
   const { id } = req.params;
   planets = planets.filter((p) => p.id !== id);
-
   res.status(200).json({ msg: "il pianeta è stato eliminato " });
+};
+
+export const createImage = async (req, res) => {
+  console.log(req.file);
+  res.status(201).json({ msg: "immagine caricata con successo" });
+
+  if (fileName) {
+    db.none(`UPDATE planets SET image=$2 WHERE id=$1`, [id, fileName]);
+    res.status(201).json({ msg: "Planet image uploaded successfully" });
+  } else {
+    res.status(400).json({ msg: "planet image failed to upload" });
+  }
 };
