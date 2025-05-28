@@ -15,7 +15,9 @@ export const login = async (req, res) => {
     const { SECRET = "" } = process.env;
     const token = jwt.sign(payload, SECRET);
 
-    res.status(400).json({ msg: "Username or password incorrect" });
+    await db.none(`UPDATE users SET token=$2 WHERE id=$1`, [user.id, token]);
+
+    res.status(200).json({ id: user.id, username, token });
   } else {
     res.status(400).json({ msg: "Username or password incorrect" });
   }
