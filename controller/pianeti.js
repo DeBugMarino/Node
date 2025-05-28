@@ -11,6 +11,7 @@ import {
 } from "./controller.js";
 
 import multer from "multer";
+import authorize from "./authorize.js";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -41,6 +42,7 @@ app.put("/api/planets/:id", updateById);
 app.delete("/api/planets/:id", deleteById);
 
 app.post("/api/users/login", login);
+app.post("/api/users/logout", authorize, logout);
 
 app.listen(port, () => {
   console.log(`sta ascoltando http://localhost:${port}`);
