@@ -36,5 +36,11 @@ const signup = async (req, res) => {
       `INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id`,
       [username, password]
     );
+    res.status(201).json({ id, msg: "user created successfully" });
   }
+  const logout = async (req, res) => {
+    const user = req.user;
+    await db.none(` UPDATE users SET token=$ WHERE id=$1`, [user?.id, null]);
+    res.status(200).json({ msg: "logout successful" });
+  };
 };

@@ -12,6 +12,7 @@ import {
 
 import multer from "multer";
 import authorize from "./authorize.js";
+import "./passport.js";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -43,6 +44,7 @@ app.delete("/api/planets/:id", deleteById);
 
 app.post("/api/users/login", login);
 app.post("/api/users/logout", authorize, logout);
+app.post("api/users/signup", signup);
 
 app.listen(port, () => {
   console.log(`sta ascoltando http://localhost:${port}`);
