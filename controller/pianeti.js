@@ -1,5 +1,5 @@
 import express from "express";
-
+import { login } from "./controller/user.js";
 import morgan from "morgan";
 import {
   getAll,
@@ -14,7 +14,7 @@ import multer from "multer";
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "./upload");
+    cb(null, "upload/");
   },
   filename: (req, file, cb) => {
     cb(null, file.originalname);
@@ -39,6 +39,8 @@ app.post("/planets/:id/image", upload.single("image"), createImage);
 app.put("/api/planets/:id", updateById);
 
 app.delete("/api/planets/:id", deleteById);
+
+app.post("/api/users/login", login);
 
 app.listen(port, () => {
   console.log(`sta ascoltando http://localhost:${port}`);

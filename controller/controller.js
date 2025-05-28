@@ -30,10 +30,21 @@ const setupDatabase = async () => {
     name TEXT NOT NULL,
     image TEXT
     )
-    `
+
+    DROP TABLE IF EXISTS users;
+
+    CREATE TABLE users (
+  id SERIAL NOT NULL PRIMARY KEY,
+  username TEXT NOT NULL,
+  password TEXT NOT NULL,
+  token TEXT
+)  `
   );
   await database.none(`INSERT INTO planets (name) VALUES ('Earth')`);
   await database.none(`INSERT INTO planets (name) VALUES ('mars')`);
+  await database.none(
+    `INSERT INTO  users (username, password) VALUES ('ok', 'boomer')`
+  );
 };
 
 setupDatabase();
